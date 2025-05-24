@@ -1,70 +1,533 @@
+  html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000000;
+            transition: background-color 0.3s ease;
+        }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #2c3e50;
-            font-family: Arial, sans-serif;
-        }
-        #gameContainer {
-            position: relative;
-            width: 400px;
-            height: 500px;
-        }
-        #gameBoard {
-            width: 400px;
-            height: 400px;
-            background-color: #34495e;
-            border: 5px solid #2c3e50;
-            position: relative;
-            overflow: hidden;
-        }
-        .snake {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #2ecc71;
-            border: 1px solid #27ae60;
-        }
-        .snake-head {
-            background-color: #27ae60;
-        }
-        #food {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #e74c3c;
-            border-radius: 50%;
-        }
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            min-height: 100vh;
+            box-sizing: border-box;
+            padding-top: 50px;
+            padding-bottom: 50px;
         }
+
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #0f3d0f;
+            color: #00ff00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+            font-size: clamp(12px, 4vw, 16px);
+            z-index: 10;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #logo {
+            max-height: 30px;
+            width: auto;
+            margin-right: 8px;
+            transition: filter 0.3s ease;
+        }
+
+        #navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        #navbar input, #navbar button, #navbar select {
+            background-color: #00ff00;
+            color: #000000;
+            border: 2px solid #0f3d0f;
+            padding: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(10px, 3vw, 14px);
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            margin-left: 5px;
+        }
+
+        #navbar input {
+            width: 100px;
+        }
+
+        #navbar select {
+            width: 100px;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 90vw;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #gameBoard {
+            width: 300px;
+            aspect-ratio: 1 / 1;
+            max-width: 300px;
+            background-color: #000000;
+            border: 5px solid #0f3d0f;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .snake {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #00ff00 !important;
+            border: 2px solid #0f3d0f;
+            border-radius: 50%;
+            z-index: 5;
+            opacity: 1;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .snake-head {
+            width: 14px;
+            height: 14px;
+            background-color: #00cc00 !important;
+            border: 2px solid #0f3d0f;
+            border-radius: 50%;
+            position: relative;
+            z-index: 6;
+            opacity: 1;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .snake-head::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #ffffff;
+            clip-path: polygon(50% 0%, 20% 100%, 80% 100%);
+            transition: transform 0.3s ease;
+            z-index: 7;
+        }
+
+        .snake-head.up::after {
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+        }
+
+        .snake-head.down::after {
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+        }
+
+        .snake-head.left::after {
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        .snake-head.right::after {
+            right: -1px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        #food {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border: 2px solid #0f3d0f;
+            border-radius: 50%;
+            z-index: 4;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
         #score {
             position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
-            font-size: 20px;
+            color: #00ff00;
+            font-size: clamp(12px, 4vw, 16px);
+            font-family: 'Courier New', Courier, monospace;
             z-index: 5;
+            transition: color 0.3s ease;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #2ecc71;
-            color: white;
-            border: none;
+
+        #startButton {
+            padding: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0f3d0f;
+            color: #00ff00;
+            border: 2px solid #0f3d0f;
             cursor: pointer;
-            margin: 10px;
+            font-size: clamp(10px, 3vw, 14px);
+            margin: 10px 5px 10px 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        #startButton.hidden {
+            display: none;
+        }
+
+        #speedSelector {
+            padding: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #00ff00;
+            color: #000000;
+            border: 2px solid #0f3d0f;
+            font-size: clamp(10px, 3vw, 14px);
+            cursor: pointer;
+            margin: 10px 0 10px 5px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        #buttonContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #0f3d0f;
+            color: #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(10px, 3vw, 14px);
+            z-index: 10;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #scoreModal {
+            display: none;
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            max-width: 300px;
+            background-color: #0f3d0f;
+            color: #00ff00;
+            border: 2px solid #0f3d0f;
+            padding: 10px;
+            z-index: 20;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        #scoreModal table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #0f3d0f;
+            border: 2px solid #0f3d0f;
+        }
+
+        #scoreModal th, #scoreModal td {
+            padding: 5px;
+            text-align: left;
+            border: 1px solid #00ff00;
+            font-size: clamp(10px, 3vw, 14px);
+        }
+
+        #scoreModalClose {
+            background-color: #00ff00;
+            color: #000000;
+            border: 2px solid #0f3d0f;
+            padding: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(10px, 3vw, 14px);
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Audio elements */
+        audio {
+            display: none;
+        }
+
+        /* Blue theme */
+        body.blue-theme {
+            background-color: #1c2526;
+        }
+
+        .blue-theme #navbar, .blue-theme #footer, .blue-theme #scoreModal {
+            background-color: #2a4d69;
+            color: #4a90e2;
+        }
+
+        .blue-theme #logo {
+            filter: brightness(1.2);
+        }
+
+        .blue-theme #navbar input, .blue-theme #navbar button, .blue-theme #navbar select,
+        .blue-theme #startButton, .blue-theme #speedSelector, .blue-theme #scoreModalClose {
+            background-color: #4a90e2;
+            color: #1c2526;
+            border-color: #2a4d69;
+        }
+
+        .blue-theme #gameBoard {
+            background-color: #1c2526;
+            border-color: #2a4d69;
+        }
+
+        .blue-theme .snake {
+            background-color: #4a90e2 !important;
+            border-color: #2a4d69;
+        }
+
+        .blue-theme .snake-head {
+            background-color: #357abd !important;
+            border-color: #2a4d69;
+        }
+
+        .blue-theme .snake-head::after {
+            background-color: #ffffff;
+        }
+
+        .blue-theme #food {
+            background-color: #4a90e2;
+            border-color: #2a4d69;
+        }
+
+        .blue-theme #score {
+            color: #4a90e2;
+        }
+
+        .blue-theme #scoreModal table {
+            border-color: #2a4d69;
+            background-color: #2a4d69;
+        }
+
+        .blue-theme #scoreModal th, .blue-theme #scoreModal td {
+            border-color: #4a90e2;
+        }
+
+        /* Red theme */
+        body.red-theme {
+            background-color: #2b0a0a;
+        }
+
+        .red-theme #navbar, .red-theme #footer, .red-theme #scoreModal {
+            background-color: #4a0e0e;
+            color: #ff4040;
+        }
+
+        .red-theme #logo {
+            filter: brightness(1.2);
+        }
+
+        .red-theme #navbar input, .red-theme #navbar button, .red-theme #navbar select,
+        .red-theme #startButton, .red-theme #speedSelector, .red-theme #scoreModalClose {
+            background-color: #ff4040;
+            color: #2b0a0a;
+            border-color: #4a0e0e;
+        }
+
+        .red-theme #gameBoard {
+            background-color: #2b0a0a;
+            border-color: #4a0e0e;
+        }
+
+        .red-theme .snake {
+            background-color: #ff4040 !important;
+            border-color: #4a0e0e;
+        }
+
+        .red-theme .snake-head {
+            background-color: #cc3333 !important;
+            border-color: #4a0e0e;
+        }
+
+        .red-theme .snake-head::after {
+            background-color: #ffffff;
+        }
+
+        .red-theme #food {
+            background-color: #ff4040;
+            border-color: #4a0e0e;
+        }
+
+        .red-theme #score {
+            color: #ff4040;
+        }
+
+        .red-theme #scoreModal table {
+            border-color: #4a0e0e;
+            background-color: #4a0e0e;
+        }
+
+        .red-theme #scoreModal th, .red-theme #scoreModal td {
+            border-color: #ff4040;
+        }
+
+        /* Purple theme */
+        body.purple-theme {
+            background-color: #1a0d26;
+        }
+
+        .purple-theme #navbar, .purple-theme #footer, .purple-theme #scoreModal {
+            background-color: #3c1f66;
+            color: #b266ff;
+        }
+
+        .purple-theme #logo {
+            filter: brightness(1.2);
+        }
+
+        .purple-theme #navbar input, .purple-theme #navbar button, .purple-theme #navbar select,
+        .purple-theme #startButton, .purple-theme #speedSelector, .purple-theme #scoreModalClose {
+            background-color: #b266ff;
+            color: #1a0d26;
+            border-color: #3c1f66;
+        }
+
+        .purple-theme #gameBoard {
+            background-color: #1a0d26;
+            border-color: #3c1f66;
+        }
+
+        .purple-theme .snake {
+            background-color: #b266ff !important;
+            border-color: #3c1f66;
+        }
+
+        .purple-theme .snake-head {
+            background-color: #8e44ad !important;
+            border-color: #3c1f66;
+        }
+
+        .purple-theme .snake-head::after {
+            background-color: #ffffff;
+        }
+
+        .purple-theme #food {
+            background-color: #b266ff;
+            border-color: #3c1f66;
+        }
+
+        .purple-theme #score {
+            color: #b266ff;
+        }
+
+        .purple-theme #scoreModal table {
+            border-color: #3c1f66;
+            background-color: #3c1f66;
+        }
+
+        .purple-theme #scoreModal th, .purple-theme #scoreModal td {
+            border-color: #b266ff;
+        }
+
+        /* Yellow theme */
+        body.yellow-theme {
+            background-color: #262209;
+        }
+
+        .yellow-theme #navbar, .yellow-theme #footer, .yellow-theme #scoreModal {
+            background-color: #4a3f0e;
+            color: #ffeb3b;
+        }
+
+        .yellow-theme #logo {
+            filter: brightness(1.2);
+        }
+
+        .yellow-theme #navbar input, .yellow-theme #navbar button, .yellow-theme #navbar select,
+        .yellow-theme #startButton, .yellow-theme #speedSelector, .yellow-theme #scoreModalClose {
+            background-color: #ffeb3b;
+            color: #262209;
+            border-color: #4a3f0e;
+        }
+
+        .yellow-theme #gameBoard {
+            background-color: #262209;
+            border-color: #4a3f0e;
+        }
+
+        .yellow-theme .snake {
+            background-color: #ffeb3b !important;
+            border-color: #4a3f0e;
+        }
+
+        .yellow-theme .snake-head {
+            background-color: #fbc02d !important;
+            border-color: #4a3f0e;
+        }
+
+        .yellow-theme .snake-head::after {
+            background-color: #ffffff;
+        }
+
+        .yellow-theme #food {
+            background-color: #ffeb3b;
+            border-color: #4a3f0e;
+        }
+
+        .yellow-theme #score {
+            color: #ffeb3b;
+        }
+
+        .yellow-theme #scoreModal table {
+            border-color: #4a3f0e;
+            background-color: #4a3f0e;
+        }
+
+        .yellow-theme #scoreModal th, .yellow-theme #scoreModal td {
+            border-color: #ffeb3b;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 360px) {
+            body {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+
+            #navbar, #footer {
+                height: 30px;
+            }
+
+            #logo {
+                max-height: 20px;
+                margin-right: 5px;
+            }
+
+            #navbar input, #navbar button, #navbar select, #startButton, #speedSelector, #scoreModalClose {
+                padding: 3px;
+                font-size: clamp(8px, 2.5vw, 12px);
+            }
+
+            #scoreModal {
+                width: 95vw;
+                top: 40px;
+            }
+
+            #scoreModal th, #scoreModal td {
+                font-size: clamp(8px, 2.5vw, 12px);
+            }
         }
