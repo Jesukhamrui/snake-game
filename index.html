@@ -2,18 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Snake Game</title>
-    <link rel="stylesheet" href="snake.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game -BY Jesu</title>
+     <link rel="stylesheet" href="index.css">
+  
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="gameBoard">
-            <div id="score">Score: 0</div>
-            <div id="overlay">
-                <button id="startButton">Start Game</button>
-            </div>
+    <div id="navbar">
+        <div id="navbar-left">
+            <img id="logo" src="https://img.icons8.com/ios-filled/50/00ff00/snake.png" alt="Snake Game Logo">
+            <span>Snake Game</span>
+        </div>
+        <div>
+            <input id="usernameInput" type="text" placeholder="Enter username" maxlength="20">
+            <button id="saveNameButton">Save Name</button>
+            <button id="scoresButton">Scores</button>
+            <select id="themeSelector" onchange="changeTheme(this.value)">
+                <option value="nokia">Nokia Theme</option>
+                <option value="blue">Blue Theme</option>
+                <option value="red">Red Theme</option>
+                <option value="purple">Purple Theme</option>
+                <option value="yellow">Yellow Theme</option>
+            </select>
+            <button id="fullscreenButton">Fullscreen</button>
         </div>
     </div>
-    <script src="snake.js"></script>
+    <div id="gameContainer">
+        <div id="score">Score: 0</div>
+        <div id="gameBoard"></div>
+        <div id="buttonContainer">
+            <button id="startButton">Start Game</button>
+            <select id="speedSelector">
+                <option value="high">High Speed</option>
+                <option value="medium" selected>Medium Speed</option>
+                <option value="low">Low Speed</option>
+            </select>
+        </div>
+    </div>
+    <div id="footer">Powered by Jk|🚧 Our site is currently under construction 🛠️ ✨ Exciting new features are coming soon — stay tuned! 🌟</div>
+    <div id="scoreModal">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="scoreTableBody"></tbody>
+        </table>
+        <button id="scoreModalClose">Close</button>
+    </div>
+    <!-- Audio elements: Place start.wav, end.wav, eat.wav in the same directory -->
+    <!-- Download from: start: https://freesound.org/s/316847/, end: https://freesound.org/s/171671/, eat: https://freesound.org/s/387232/ -->
+    <!-- Or use base64 data (uncomment below) -->
+    <audio id="startSound" src="start.wav"></audio>
+    <audio id="endSound" src="end.wav"></audio>
+    <audio id="eatSound" src="eat.wav"></audio>
+      <script src="index.js"></script>
 </body>
 </html>
